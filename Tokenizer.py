@@ -108,16 +108,20 @@ def endOfLine():
 
 def tokenize():
 
+    line = 1
+
     while utl.peek(1) != "EOF":
 
         try:
             tokenizeLine()
             
         except utl.TokenException as e:
-            print("Error: " + e.message)
+            print("Error: " + e.message + " at line " + str(line))
             break
 
         tokenList.append("NEWLINE")
+
+        line += 1
 
 
 
