@@ -6,6 +6,8 @@ static z
 
 z=1
 
+static a = "this is a string"
+
 //this is a comment
 
 /* this is also a comment */

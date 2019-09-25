@@ -7,6 +7,7 @@ symbols = ["="]
 #("keyword", x)
 #("identifier", x)
 #("number", x)
+#("string", x)
 #("symbol", x)
 #"NEWLINE"
 
@@ -58,6 +59,16 @@ def tokenizeLine():
             s = utl.popUntil(lambda x : x == " " or x in symbols or endOfLine())
 
             tokenList.append(("number", s))
+
+
+        #handle strings
+        elif utl.peek(1) == '"':
+
+            utl.pop(1)
+            s = utl.popUntil(lambda x : x == '"')
+            utl.pop(1)
+
+            tokenList.append(("string", s))
             
 
         #handle symbols
