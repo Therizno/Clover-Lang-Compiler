@@ -35,7 +35,11 @@ def tokenizeLine():
 
         elif utl.charsLeft() > 1 and utl.peek(2) == "/*":
 
-            utl.popUntil(lambda x : utl.peek(2) == "*/")
+            try:
+                utl.popUntil(lambda x : utl.peek(2) == "*/")
+            except:
+                raise utl.TokenException("unclosed comment")
+                
             utl.pop(2)
         
 
@@ -65,7 +69,12 @@ def tokenizeLine():
         elif utl.peek(1) == '"':
 
             utl.pop(1)
-            s = utl.popUntil(lambda x : x == '"')
+            
+            try:
+                s = utl.popUntil(lambda x : x == '"')
+            except:
+                raise utl.TokenException("unclosed string")
+                
             utl.pop(1)
 
             tokenList.append(("string", s))
@@ -81,7 +90,7 @@ def tokenizeLine():
 
         #else the token is invalid, raise exception
         else:
-            raise utl.InvalidToken(utl.peek(1))
+            raise utl.TokenException(utl.peek(1) + " is not a valid token")
                 
 
         
@@ -104,8 +113,8 @@ def tokenize():
         try:
             tokenizeLine()
             
-        except utl.InvalidToken as e:
-            print(e.message)
+        except utl.TokenException as e:
+            print("Error: " + e.message)
             break
 
         tokenList.append("NEWLINE")

@@ -86,10 +86,10 @@ def popWhitespace():
 
 #exceptions
 
-class InvalidToken(Exception):
+class TokenException(Exception):
 
-    def __init__(self, token):
-        self.message = token + " is not a valid token"
+    def __init__(self, text):
+        self.message = text 
 
 
 
