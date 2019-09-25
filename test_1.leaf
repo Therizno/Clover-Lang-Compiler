@@ -1,0 +1,12 @@
+static x = 0
+
+static y = 1
+
+static z
+
+z=1
+
+//this is a comment
+
+/* this is also a comment */
+ 
