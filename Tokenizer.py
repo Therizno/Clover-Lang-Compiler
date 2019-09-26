@@ -114,8 +114,7 @@ def tokenize():
             tokenizeLine()
             
         except utl.TokenException as e:
-            print("Error: " + e.message + " at line " + str(line))
-            break
+            raise utl.TokenException(e.message + " at line " + str(line))
 
         tokenList.append("NEWLINE")
 
