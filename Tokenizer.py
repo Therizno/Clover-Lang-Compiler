@@ -83,9 +83,7 @@ def tokenizeLine():
         #handle symbols
         elif utl.peek(1) in symbols:
 
-            s = utl.popUntil(lambda x : x not in symbols)
-
-            tokenList.append(("symbol", s))
+            tokenList.append(("symbol", utl.pop(1)))
 
 
         #else the token is invalid, raise exception
