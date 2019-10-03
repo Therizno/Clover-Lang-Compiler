@@ -154,6 +154,9 @@ def tokenize(fileName):
         line += 1
 
 
+    line -= 1     #avoids counting one too many lines 
+
+
 
 
 
