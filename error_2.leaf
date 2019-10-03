@@ -1,0 +1,2 @@
+//this char is unclosed
+char c = 'c

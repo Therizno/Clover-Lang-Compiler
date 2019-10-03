@@ -8,8 +8,10 @@ while True:
     try:
         tkner.tokenize(fileName)
         print("Success!")
+        print(tkner.tokenList)
+        
     except utl.TokenException as e:
-        print(e.message)
+        print("Error: "+e.message)
 
     
 
