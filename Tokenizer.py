@@ -14,6 +14,8 @@ symbols = ["=", ">", "<", "+", "-", "*", "/", "^", "%", "[", "]", "{", "}", "(",
 
 tokenList = []
 
+line = 1
+
 
 
 def tokenizeLine():
@@ -37,7 +39,7 @@ def tokenizeLine():
         elif utl.charsLeft() > 1 and utl.peek(2) == "/*":
 
             try:
-                utl.popUntil(lambda x : utl.peek(2) == "*/")
+                utl.popUntil(eraseMultiline)
             except:
                 raise utl.TokenException("unclosed comment")
                 
@@ -117,7 +119,23 @@ def endOfLine():
     return utl.peek(1) == "\n" or utl.peek(1) == "EOF"
 
 
+
+def eraseMultiline(x):
+
+    global line
+
+    if x == "\n":
+
+        tokenList.append("NEWLINE")
+        line += 1
+
+    return utl.peek(2) == "*/" 
+
+
+
 def tokenize(fileName):
+
+    global line
 
     utl.readFile(fileName)
 
