@@ -21,5 +21,7 @@ function main(){
 	while(int i = 0, i < b, i++){		
 		b = b - i
 	}
+	
+	char c = 'h'
 
 }

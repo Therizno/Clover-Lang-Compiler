@@ -8,6 +8,7 @@ symbols = ["=", ">", "<", "+", "-", "*", "/", "^", "%", "[", "]", "{", "}", "(",
 #("identifier", x)
 #("number", x)
 #("string", x)
+#("char", x)
 #("symbol", x)
 #"NEWLINE"
 
@@ -78,6 +79,18 @@ def tokenizeLine():
             utl.pop(1)
 
             tokenList.append(("string", s))
+
+
+        #handle chars
+        elif utl.peek(1) == "'":
+
+            utl.pop(1)
+
+            tokenList.append(("char", utl.pop(1)))
+
+            if utl.pop(1) != "'":
+
+                raise utl.TokenException("unclosed char") 
             
 
         #handle symbols
