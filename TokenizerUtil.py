@@ -6,7 +6,7 @@ def readFile(fileName):
 
     rawInput.clear()
     
-    file = open(fileName + ".leaf", "r")
+    file = open(fileName, "r")
 
     for line in file:
 

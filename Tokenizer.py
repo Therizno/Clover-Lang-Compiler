@@ -117,7 +117,9 @@ def endOfLine():
     return utl.peek(1) == "\n" or utl.peek(1) == "EOF"
 
 
-def tokenize():
+def tokenize(fileName):
+
+    utl.readFile(fileName)
 
     line = 1
 
@@ -136,12 +138,6 @@ def tokenize():
 
 
 
-#test
-utl.readFile("test_2")
-
-tokenize()
-
-print(tokenList)
 
 
 
