@@ -1,5 +1,25 @@
-main(){
+/*
+	This is a sample of what compiling Clover code should look like when the compiler is finished
+*/
 
+function main(){
+
+	n = 100.0     //double under the hood
 	
+	int b = 1
+	
+	
+	while (i < n) {		//i is an int under the hood
+		b = i * b
+	}
+	
+	/*
+	loops can also be done like this. If "int i = 0" and 
+	"i++" are not found they will be assumed, like in the 
+	loop above
+	*/
+	while(int i = 0, i < b, i++){		
+		b = b - i
+	}
 
 }

@@ -1,7 +1,7 @@
 import TokenizerUtil as utl
 
-keywords = ["static", "member", "function", "method", "int", "float", "double", "char", "null", "mod"]
-symbols = ["=", ">", "<", "+", "-", "*", "/", "^", "%", "[", "]", "{", "}", "(", ")", ".", "&", "|", "!", "~"]
+keywords = ["static", "member", "function", "method", "int", "float", "double", "char", "null", "mod", "for", "while", "if", "else"]
+symbols = ["=", ">", "<", "+", "-", "*", "/", "^", "%", "[", "]", "{", "}", "(", ")", ".", ",", "&", "|", "!", "~"]
 
 #possible tokenList entries:
 #("keyword", x)
@@ -60,7 +60,7 @@ def tokenizeLine():
         #handle numbers
         elif utl.peek(1).isdigit():
 
-            s = utl.popUntil(lambda x : x == " " or (x in symbols and x != ".") or endOfLine())
+            s = utl.popUntil(lambda x : x == " " or ((not x.isdigit()) and x != ".") or endOfLine())
 
             tokenList.append(("number", s))
 
@@ -124,7 +124,7 @@ def tokenize():
 
 
 #test
-utl.readFile("test_1")
+utl.readFile("test_2")
 
 tokenize()
 

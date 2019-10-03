@@ -81,7 +81,7 @@ def popUntil(stop):
 
 def popWhitespace():
 
-    return popUntil(lambda x : x != " ")
+    return popUntil(lambda x : x != " " and x != "\t")
 
 
 #exceptions
