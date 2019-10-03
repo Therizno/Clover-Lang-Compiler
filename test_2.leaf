@@ -4,7 +4,7 @@
 
 function main(){
 
-	n = 100.0     //double under the hood
+	n = 100.0     //float under the hood
 	
 	int b = 1
 	

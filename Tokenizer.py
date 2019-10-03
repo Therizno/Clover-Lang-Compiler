@@ -1,6 +1,6 @@
 import TokenizerUtil as utl
 
-keywords = ["static", "member", "function", "method", "int", "float", "double", "char", "null", "mod", "for", "while", "if", "else"]
+keywords = ["static", "member", "function", "method", "int", "float", "double", "char", "bool", "null", "true", "false", "mod", "for", "while", "if", "else"]
 symbols = ["=", ">", "<", "+", "-", "*", "/", "^", "%", "[", "]", "{", "}", "(", ")", ".", ",", "&", "|", "!", "~"]
 
 #possible tokenList entries:
