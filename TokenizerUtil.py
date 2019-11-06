@@ -1,3 +1,4 @@
+import MainUtil as mtl
 
 #get the raw code
 rawInput = []
@@ -5,8 +6,11 @@ rawInput = []
 def readFile(fileName):
 
     rawInput.clear()
-    
-    file = open(fileName, "r")
+
+    try:
+        file = open(fileName, "r")
+    except FileNotFoundError:
+        raise mtl.CompileException("File not found")
 
     for line in file:
 
@@ -86,10 +90,10 @@ def popWhitespace():
 
 #exceptions
 
-class TokenException(Exception):
+class TokenException(mtl.CompileException):
 
     def __init__(self, text):
-        self.message = text 
+        self.message = "Token Error: " + text 
 
 
 

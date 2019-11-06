@@ -1,5 +1,5 @@
 import Tokenizer as tkner
-import TokenizerUtil as utl
+import MainUtil as mtl
 
 while True:
     
@@ -15,7 +15,7 @@ while True:
             print("Success! " + str(tkner.line) + " lines compiled")
             print(tkner.tokenList)
         
-        except utl.TokenException as e:
+        except mtl.CompileException as e:
             print("Error: "+e.message)
 
         tkner.tokenList.clear()

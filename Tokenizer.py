@@ -40,7 +40,7 @@ def tokenizeLine():
 
             try:
                 utl.popUntil(eraseMultiline)
-            except:
+            except IndexError:
                 raise utl.TokenException("unclosed comment")
                 
             utl.pop(2)
@@ -75,7 +75,7 @@ def tokenizeLine():
             
             try:
                 s = utl.popUntil(lambda x : x == '"')
-            except:
+            except IndexError:
                 raise utl.TokenException("unclosed string")
                 
             utl.pop(1)
@@ -147,7 +147,8 @@ def tokenize(fileName):
             tokenizeLine()
             
         except utl.TokenException as e:
-            raise utl.TokenException(e.message + " at line " + str(line))
+            e.message += " at line " + str(line)
+            raise e
 
         tokenList.append("NEWLINE")
 
