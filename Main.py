@@ -11,9 +11,9 @@ while True:
 
     else:
         try:
-            tkner.tokenize(fileName)
+            tokens = tkner.tokenize(fileName)
             print("Success! " + str(tkner.line) + " lines compiled")
-            print(tkner.tokenList)
+            print(tokens)
         
         except mtl.CompileException as e:
             print("Error: "+e.message)

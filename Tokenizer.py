@@ -1,7 +1,8 @@
 import TokenizerUtil as utl
+import MainUtil as mtl
 
-keywords = ["static", "member", "function", "method", "int", "float", "double", "char", "bool", "null", "true", "false", "mod", "for", "while", "if", "else"]
-symbols = ["=", ">", "<", "+", "-", "*", "/", "^", "%", "[", "]", "{", "}", "(", ")", ".", ",", "&", "|", "!", "~"]
+keywords = mtl.keywords
+symbols = mtl.symbols
 
 #possible tokenList entries:
 #("keyword", x)
