@@ -6,14 +6,19 @@ control_statements = {"while", "for", "if", "else"}
 
 keywords = types | special_values | control_statements | {"static", "member", "function", "method", "mod"}
 
+
+#operators
+operators = {"==", ">", "<", "+", "-", "*", "/", "^", "%", "&", "|", "!", "~"}
+
+
 #symbols
-operators = {">", "<", "+", "-", "*", "/", "^", "%", "&", "|", "!", "~"}
 brackets = {"[", "]", "{", "}", "(", ")"}
 
-symbols = operators | brackets | {",", ".", "="} 
+symbols = brackets | {",", ".", "="} 
 
 
-#basic compiler exception
+
+#basic compiling exception
 class CompileException(Exception):
 
     def __init__(self, text):

@@ -1,7 +1,10 @@
+from collections import namedtuple
+
 import TokenizerUtil as utl
 import MainUtil as mtl
 
 keywords = mtl.keywords
+operators = mtl.operators
 symbols = mtl.symbols
 
 #possible tokenList entries:
@@ -10,10 +13,13 @@ symbols = mtl.symbols
 #("number", x)
 #("string", x)
 #("char", x)
+#("operator", x)
 #("symbol", x)
 #"NEWLINE"
 
 tokenList = []
+
+TokenEntry = namedtuple("TokenEntry", "kind token")
 
 line = 1
 
@@ -54,11 +60,11 @@ def tokenizeLine():
 
             if s in keywords:
 
-                tokenList.append(("keyword", s))
+                tokenList.append(TokenEntry("keyword", s))
 
             else:
 
-                tokenList.append(("identifier", s))
+                tokenList.append(TokenEntry("identifier", s))
 
                 
         #handle numbers
@@ -66,7 +72,7 @@ def tokenizeLine():
 
             s = utl.popUntil(lambda x : x == " " or ((not x.isdigit()) and x != ".") or endOfLine())
 
-            tokenList.append(("number", s))
+            tokenList.append(TokenEntry("number", s))
 
 
         #handle strings
@@ -81,7 +87,7 @@ def tokenizeLine():
                 
             utl.pop(1)
 
-            tokenList.append(("string", s))
+            tokenList.append(TokenEntry("string", s))
 
 
         #handle chars
@@ -89,17 +95,27 @@ def tokenizeLine():
 
             utl.pop(1)
 
-            tokenList.append(("char", utl.pop(1)))
+            tokenList.append(TokenEntry("char", utl.pop(1)))
 
             if utl.pop(1) != "'":
 
                 raise utl.TokenException("unclosed char") 
+
+
+        #handle operators
+        elif utl.peek(1) in operators:
+            
+            tokenList.append(TokenEntry("operator", utl.pop(1)))
+            
+        elif utl.charsLeft() > 1 and utl.peek(2) in operators:
+            
+            tokenList.append(TokenEntry("operator", utl.pop(2)))
             
 
         #handle symbols
         elif utl.peek(1) in symbols:
 
-            tokenList.append(("symbol", utl.pop(1)))
+            tokenList.append(TokenEntry("symbol", utl.pop(1)))
 
 
         #else the token is invalid, raise exception

@@ -1,0 +1,9 @@
+//this is for testing the parser and improved tokenizer
+
+int i = 1 + 2 + 3 + 4 + 5 
+
+bool o = i == 15 
+
+i = 0
+
+u = 1
