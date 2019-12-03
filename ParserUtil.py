@@ -1,3 +1,4 @@
+import MainUtil as mtl
 import Tokenizer as tkner
 
 tokenList = []
@@ -15,6 +16,11 @@ def tokenize(fileName):
 def tokensLeft():
 
     return len(tokenList)
+
+
+def peek():
+
+    return tokenList[0]
 
 
 #peek the first x elements 
@@ -42,6 +48,12 @@ def peekUntil(stop):
 
     return l
 
+
+
+
+def pop():
+
+    return tokenList.pop(0)
     
 
 #pop the firt x elements 
@@ -67,5 +79,13 @@ def popUntil(stop):
 
     return l
 
+
+
+#exceptions
+
+class ParserException(mtl.CompileException):
+
+    def __init__(self, text):
+        self.message = "Parser Error: " + text
 
 
