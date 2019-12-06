@@ -29,12 +29,12 @@ class Statement:
         subList.append(Statement(tokenEntry.kind, [tokenEntry.token]))
     
 
+#verifies that this TokenEntry fits some requirements, and returns it 
+def verify(tokenEntry, tokenString, isValid=lambda x, y : x.token==y):
 
-def verify(tokenEntry, isValid):
+    if isValid(tokenEntry, tokenString):
 
-    if isValid(tokenEntry.token):
-
-        return tokenString
+        return tokenEntry
 
     raise utl.ParserException("expected "+tokenString+", found " +tokenEntry.token+" at line "+line)
 
@@ -48,6 +48,11 @@ def parseStatement():
         parseVarAssignment()
 
 
+    if utl.peek() == "NEWLINE":
+
+        utl.pop()
+
+
 
 def parseVarAssignment():
 
@@ -57,8 +62,50 @@ def parseVarAssignment():
 
         varAssignment.addToken(utl.pop())
 
-    varAssignment.addToken(verify(utl.pop(), lambda x : x.kind == "identifier"))
-    varAssignment.addToken(verify(utl.pop(), lambda x : x == "="))
+    varAssignment.addToken(verify(utl.pop(), "identifier", lambda x, y : x.kind == y))
+    varAssignment.addToken(verify(utl.pop(), "="))
+
+    varAssignment.subList.append(parseExpression())
+
+    return varAssignment
+
+
+
+def parseExpression():
+
+    perenValue = 0
+
+    exp = Statement("expression")
+    
+
+    while True:
+
+        while utl.peek().token == "(":
+
+            exp.addToken(verify(utl.pop(), "("))
+            perenValue += 1
+
+        exp.addToken(verify(utl.pop(), "a value", lambda x, y : x.kind == "identifier" or x.token in mtl.special_values))
+
+        while utl.peek().token == ")":
+
+            perenValue -= 1
+
+            if perenValue < 0:
+                break
+
+            exp.addToken(verify(utl.pop(), ")"))
+
+
+
+        if utl.peek().kind == "operator":
+            
+            exp.addToken(verify(utl.pop(), "operator", lambda x, y : x.kind == y))
+            
+        else:
+            break
+
+    return exp 
 
 
 
