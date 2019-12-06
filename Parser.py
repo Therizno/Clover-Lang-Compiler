@@ -30,6 +30,15 @@ class Statement:
     
 
 
+def verify(tokenEntry, isValid):
+
+    if isValid(tokenEntry.token):
+
+        return tokenString
+
+    raise utl.ParserException("expected "+tokenString+", found " +tokenEntry.token+" at line "+line)
+
+
 
 def parseStatement():
 
@@ -47,6 +56,9 @@ def parseVarAssignment():
     if utl.peek().token in mtl.types:
 
         varAssignment.addToken(utl.pop())
+
+    varAssignment.addToken(verify(utl.pop(), lambda x : x.kind == "identifier"))
+    varAssignment.addToken(verify(utl.pop(), lambda x : x == "="))
 
 
 
