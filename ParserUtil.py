@@ -7,7 +7,10 @@ tokenList = []
 
 def tokenize(fileName):
 
-    tokenList.append(tkner.tokenize(fileName))
+    global tokenList
+
+    tokenList = tkner.tokenize(fileName)
+
 
 
 
@@ -24,7 +27,7 @@ def peek():
 
 
 #peek the first x elements 
-def peek(x):
+def peekX(x):
 
     l = []
 
@@ -57,7 +60,7 @@ def pop():
     
 
 #pop the firt x elements 
-def pop(x):
+def popX(x):
 
     l = []
 

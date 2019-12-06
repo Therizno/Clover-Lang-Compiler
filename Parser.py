@@ -24,9 +24,9 @@ class Statement:
         self.kind = kind
         self.subList = subList
 
-    def addToken(tokenEntry):
+    def addToken(self, tokenEntry):
 
-        subList.append(Statement(tokenEntry.kind, [tokenEntry.token]))
+        self.subList.append(Statement(tokenEntry.kind, [tokenEntry.token]))
     
 
 #verifies that this TokenEntry fits some requirements, and returns it 
@@ -36,21 +36,23 @@ def verify(tokenEntry, tokenString, isValid=lambda x, y : x.token==y):
 
         return tokenEntry
 
-    raise utl.ParserException("expected "+tokenString+", found " +tokenEntry.token+" at line "+line)
+    raise utl.ParserException("expected "+tokenString+", found " +tokenEntry.token+" at line "+str(line))
 
 
 
 def parseStatement():
 
+    if utl.peek() == "NEWLINE":
+
+        utl.pop()
+
     #handle variable declarations and assignments
-    if utl.peek().token in mtl.types or (utl.tokensLeft() > 1 and utl.peek(2)[1].token == "="):
+    elif utl.peek().token in mtl.types or (utl.tokensLeft() > 1 and utl.peekX(2)[1].token == "="):
 
         parseVarAssignment()
 
 
-    if utl.peek() == "NEWLINE":
 
-        utl.pop()
 
 
 
@@ -85,7 +87,7 @@ def parseExpression():
             exp.addToken(verify(utl.pop(), "("))
             perenValue += 1
 
-        exp.addToken(verify(utl.pop(), "a value", lambda x, y : x.kind == "identifier" or x.token in mtl.special_values))
+        exp.addToken(verify(utl.pop(), "a value", lambda x, y : x.kind in ["identifier", "number", "char"] or x.token in mtl.special_values))
 
         while utl.peek().token == ")":
 
@@ -120,3 +122,9 @@ def parse(fileName):
         parseStatement()
 
         line += 1
+
+
+
+#test
+parse("test/test_4.leaf")
+print(statementsList)

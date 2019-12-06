@@ -1,0 +1,9 @@
+//testing the parser's variable assignment and expression parsing
+
+int x = 0
+
+x = 1
+
+int y = 10 * 3 + x - (9 + 4)
+
+bool t = true
