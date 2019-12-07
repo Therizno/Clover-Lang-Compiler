@@ -74,18 +74,11 @@ def parseVarAssignment():
     if utl.peek().token in mtl.types:
 
         varAssignment.addToken(utl.pop())
-        print("var assignment objects 1")
-        print(len(varAssignment.subList))
 
     varAssignment.addToken(verify(utl.pop(), "identifier", lambda x, y : x.kind == y))
-    print("var assignment objects 2")
-    print(len(varAssignment.subList))
     varAssignment.addToken(verify(utl.pop(), "="))
-    print("var assignment objects 3")
-    print(len(varAssignment.subList))
     varAssignment.subList.append(parseExpression())
-    print("var assignment objects 4")
-    print(len(varAssignment.subList))
+
     return varAssignment
 
 
@@ -124,7 +117,7 @@ def parseExpression():
         else:
             break
 
-    print("exp: "+str(exp))
+
     return exp 
 
 
@@ -154,13 +147,13 @@ def printStatements(l):
 
     elif isinstance(l, Statement):
 
-        print("printing: " + l.kind)
+        print(l.kind + ": ")
         printStatements(l.subList)
 
     else:
 
         for st in l:
-            print("printing subList: "+str(st))
+
             printStatements(st)
 
 
