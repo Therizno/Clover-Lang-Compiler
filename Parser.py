@@ -19,15 +19,25 @@ line = 1
 
 class Statement:
 
-    def __init__(self, kind, subList=[]):
+    def __init__(self, kind):
 
         self.kind = kind
-        self.subList = subList
+        self.subList = []
 
     def addToken(self, tokenEntry):
 
-        self.subList.append(Statement(tokenEntry.kind, [tokenEntry.token]))
+        s = Statement(tokenEntry.kind)
+        s.subList.append(tokenEntry.token)
+        self.subList.append(s)
     
+
+
+
+def endOfLine():
+
+    return utl.tokensLeft() <= 0 or utl.peek() == "NEWLINE"
+
+
 
 #verifies that this TokenEntry fits some requirements, and returns it 
 def verify(tokenEntry, tokenString, isValid=lambda x, y : x.token==y):
@@ -49,9 +59,10 @@ def parseStatement():
     #handle variable declarations and assignments
     elif utl.peek().token in mtl.types or (utl.tokensLeft() > 1 and utl.peekX(2)[1].token == "="):
 
-        parseVarAssignment()
+        statementList.append(parseVarAssignment())
 
-
+    else:
+        raise utl.ParserException("unexpected token: "+utl.peek().token)
 
 
 
@@ -63,12 +74,18 @@ def parseVarAssignment():
     if utl.peek().token in mtl.types:
 
         varAssignment.addToken(utl.pop())
+        print("var assignment objects 1")
+        print(len(varAssignment.subList))
 
     varAssignment.addToken(verify(utl.pop(), "identifier", lambda x, y : x.kind == y))
+    print("var assignment objects 2")
+    print(len(varAssignment.subList))
     varAssignment.addToken(verify(utl.pop(), "="))
-
+    print("var assignment objects 3")
+    print(len(varAssignment.subList))
     varAssignment.subList.append(parseExpression())
-
+    print("var assignment objects 4")
+    print(len(varAssignment.subList))
     return varAssignment
 
 
@@ -80,16 +97,16 @@ def parseExpression():
     exp = Statement("expression")
     
 
-    while True:
+    while not endOfLine():
 
-        while utl.peek().token == "(":
+        while (not endOfLine()) and utl.peek().token == "(":
 
             exp.addToken(verify(utl.pop(), "("))
             perenValue += 1
 
         exp.addToken(verify(utl.pop(), "a value", lambda x, y : x.kind in ["identifier", "number", "char"] or x.token in mtl.special_values))
 
-        while utl.peek().token == ")":
+        while (not endOfLine()) and utl.peek().token == ")":
 
             perenValue -= 1
 
@@ -100,13 +117,14 @@ def parseExpression():
 
 
 
-        if utl.peek().kind == "operator":
+        if (not endOfLine()) and utl.peek().kind == "operator":
             
             exp.addToken(verify(utl.pop(), "operator", lambda x, y : x.kind == y))
             
         else:
             break
 
+    print("exp: "+str(exp))
     return exp 
 
 
@@ -125,6 +143,27 @@ def parse(fileName):
 
 
 
-#test
+#test 
+
+
+def printStatements(l):
+
+    if isinstance(l, str):
+
+        print(l)
+
+    elif isinstance(l, Statement):
+
+        print("printing: " + l.kind)
+        printStatements(l.subList)
+
+    else:
+
+        for st in l:
+            print("printing subList: "+str(st))
+            printStatements(st)
+
+
 parse("test/test_4.leaf")
-print(statementsList)
+print("printing:")
+printStatements(statementList)
