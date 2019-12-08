@@ -1,7 +1,7 @@
 import MainUtil as mtl
 import ParserUtil as utl
 
-statementList = []
+statementList = [] 
 
 line = 1 
 

@@ -1,6 +1,6 @@
 //testing the parser's variable assignment and expression parsing
 
-int x = 0
+int x = 0.0
 
 x = 1
 

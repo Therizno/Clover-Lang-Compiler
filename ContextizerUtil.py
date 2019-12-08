@@ -1,8 +1,10 @@
+import MainUtil as mtl
 import Parser as par
 
 statmList = []
 
 curStatement = None
+lastStatement = None 
 
 i = 0
 
@@ -19,18 +21,19 @@ def parse(fileName):
 
 # Statement data structure iterator 
 
-def next():
+def nextStatement():
 
-    global curStatement
+    global curStatement, lastStatement
 
     if isinstance(curStatement, str):
-
-        #assumes every token statement has a parent statement 
-        curStatement = curStatement.parent.nextNode()
+ 
+        curStatement = lastStatement.nextNode() 
 
     else:
-        
+
+        lastStatement = curStatement
         curStatement = curStatement.nextNode()
+    
     
     if curStatement == None and i < len(statmList): 
 
@@ -45,6 +48,14 @@ def next():
 def hasNext():
 
     return i < len(statmList)
+
+
+
+class ContextException(mtl.CompileException):
+
+    def __init__(self, text):
+
+        self.message = "Context Error: " + text 
 
 
 
