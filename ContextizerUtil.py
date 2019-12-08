@@ -2,6 +2,11 @@ import Parser as par
 
 statmList = []
 
+curStatement = None
+
+i = 0
+
+
 def parse(fileName):
 
     global statmList
@@ -14,20 +19,32 @@ def parse(fileName):
 
 # Statement data structure iterator 
 
-def iterate():
+def next():
 
-    for item in statmList:
+    global curStatement
 
-        iterateRecursive(item)
+    if isinstance(curStatement, str):
+
+        #assumes every token statement has a parent statement 
+        curStatement = curStatement.parent.nextNode()
+
+    else:
+        
+        curStatement = curStatement.nextNode()
+    
+    if curStatement == None and i < len(statmList): 
+
+        curStatement = statmList[i]
+        i += 1
+
+
+    return curStatement
 
 
 
-def iterateRecursive(state):
+def hasNext():
 
-    global nextStatement
+    return i < len(statmList)
 
-    for item in state.subList:
 
-        if isinstance(item, str):
 
-            

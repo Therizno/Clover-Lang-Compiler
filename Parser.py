@@ -26,6 +26,9 @@ class Statement:
 
         #parent node 
         self.parent = None
+
+        #for use by contextizer 
+        self.i = 0
         
 
     def add(self, statm):
@@ -40,6 +43,16 @@ class Statement:
         s.parent = self
         s.subList.append(tokenEntry.token)
         self.subList.append(s)
+
+    # used for iteration 
+    def nextNode(self):
+
+        if self.i < len(self.subList):
+
+            self.i += 1
+            return self.subList[i-1]
+
+        return self.parent 
 
     
 
