@@ -19,11 +19,12 @@ def parse(fileName):
 
 
 
-# Statement data structure iterator 
+# Statement data structure iterator
 
-def nextStatement():
 
-    global curStatement, lastStatement
+def nextStatement():        #never visits the same statement twice
+
+    global curStatement, lastStatement, i 
 
     if isinstance(curStatement, str):
  
@@ -33,6 +34,14 @@ def nextStatement():
 
         lastStatement = curStatement
         curStatement = curStatement.nextNode()
+
+    #skip visited parents
+    if isinstance(curStatement, Statement):
+
+        while curStatement != None and curStatement.visited():
+
+            curStatement = curStatement.parent 
+    
     
     
     if curStatement == None and i < len(statmList): 
@@ -48,6 +57,18 @@ def nextStatement():
 def hasNext():
 
     return i < len(statmList)
+
+
+
+def nextToken():
+
+    s = nextStatement()
+
+    while not isinstance(s, str):
+
+        s = nextStatement()
+
+    return s 
 
 
 

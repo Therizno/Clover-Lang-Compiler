@@ -27,24 +27,25 @@ def contextize():
 
 def contextizeVar(varStatement):
 
-    ctutl.nextStatement()       #move into varStatement object
+    if ctutl.nextStatement().kind == "keyword": 
 
-    stmt = ctutl.nextStatement()    #grab the first token
-
-    if stmt.kind in mtl.types:
-
-        name = ctutl.nextStatement()
+        typ = ctutl.nextToken()
+        name = ctutl.nextToken()
 
         if name in varTable:
 
             raise ContextException(name + " declared twice")
 
-        varTable[stmt2] = stmt.kind 
+        varTable[name] = typ 
 
-        expType =
+        ctutl.nextToken()     #skip the "="
+
+        expType = contextizeExpression(ctutl.nextStatement()) 
+
+        
 
 
-
+#returns the return type of this expression
 
 def contextizeExpression(expStatement):
 

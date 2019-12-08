@@ -52,7 +52,11 @@ class Statement:
             self.i += 1
             return self.subList[i-1]
 
-        return self.parent 
+        return self.parent
+
+    def visited(self):
+
+        return i >= len(self.subList) 
 
     
 
