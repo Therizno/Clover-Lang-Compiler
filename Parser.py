@@ -24,11 +24,23 @@ class Statement:
         self.kind = kind
         self.subList = []
 
+        #parent node 
+        self.parent = None
+        
+
+    def add(self, statm):
+
+        statm.parent = self
+        self.subList.append(statm)
+        
+
     def addToken(self, tokenEntry):
 
         s = Statement(tokenEntry.kind)
+        s.parent = self
         s.subList.append(tokenEntry.token)
         self.subList.append(s)
+
     
 
 
@@ -52,9 +64,12 @@ def verify(tokenEntry, tokenString, isValid=lambda x, y : x.token==y):
 
 def parseStatement():
 
+    global line
+
     if utl.peek() == "NEWLINE":
 
         utl.pop()
+        line += 1
 
     #handle variable declarations and assignments
     elif utl.peek().token in mtl.types or (utl.tokensLeft() > 1 and utl.peekX(2)[1].token == "="):
@@ -77,7 +92,7 @@ def parseVarAssignment():
 
     varAssignment.addToken(verify(utl.pop(), "identifier", lambda x, y : x.kind == y))
     varAssignment.addToken(verify(utl.pop(), "="))
-    varAssignment.subList.append(parseExpression())
+    varAssignment.add(parseExpression())
 
     return varAssignment
 
@@ -124,7 +139,7 @@ def parseExpression():
 
 def parse(fileName):
 
-    global line 
+    global line
 
     utl.tokenize(fileName)
 
@@ -132,7 +147,8 @@ def parse(fileName):
 
         parseStatement()
 
-        line += 1
+    line -= 1             # avoids line overcount
+    return statementList
 
 
 
@@ -160,3 +176,4 @@ def printStatements(l):
 parse("test/test_4.leaf")
 print("printing:")
 printStatements(statementList)
+print(str(line) + " lines")
