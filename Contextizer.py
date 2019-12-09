@@ -147,9 +147,4 @@ def contextize(fileName):
 
 
 
-# test
-
-contextize("test/test_4.leaf")
-from Parser import printStatements
-printStatements(utl.root)
         

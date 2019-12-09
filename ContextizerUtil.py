@@ -1,7 +1,6 @@
 import MainUtil as mtl
 import Parser as par
 
-from Parser import Statement
 
 statmList = []
 
@@ -28,7 +27,7 @@ def parse(fileName):
 # Statement data structure iterator
 
 
-def nextStatement():        #never visits the same statement twice
+def nextStatement(): 
 
     global curStatement, lastStatement, i
 
@@ -42,7 +41,7 @@ def nextStatement():        #never visits the same statement twice
         curStatement = curStatement.nextNode()
 
     #skip visited parents
-    if isinstance(curStatement, Statement):
+    if isinstance(curStatement, par.Statement):
 
         while hasNext() and curStatement.visited():
 
@@ -69,8 +68,26 @@ def nextToken():
 
         s = nextStatement()
 
-    return s 
+    return s
 
+
+
+def reset():
+
+    resetRecursive(root)
+
+
+def resetRecursive(s):
+
+    if isinstance(s, par.Statement):
+
+        s.i = 0
+
+        for item in s.subList:
+
+            resetRecursive(item)
+
+            
 
 
 class ContextException(mtl.CompileException):
