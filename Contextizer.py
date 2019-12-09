@@ -51,16 +51,20 @@ def contextizeVar(varStatement):
 
         # case for creation of new variable        
         else:
-            
-            varStatement.addToken(TokenEntry(expType, name))
+
+            #add type token to var dec
+            s = Statement("keyword")
+            s.subList.append(expType)
+            s.parent = varStatement
+            varStatement.subList.insert(0, s) 
+
+            #add to symbol table
             varTable[name] = expType 
 
 
 #returns the return type of this expression
 
 def contextizeExpression(expStatement):
-
-    st = ctutl.nextStatement()
 
     maxVar = None
     
@@ -75,45 +79,60 @@ def contextizeExpression(expStatement):
             maxVar = type1
 
             
+    st = ctutl.nextStatement()
 
-    while not expStatement.visited():
+    while isinstance(st, str) or isinstance(st, Statement) and (st.parent == expStatement or st == expStatement): 
+
+        if not isinstance(st, str):
         
-        if st.kind == "number":
+            if st.kind == "number":
 
-            if "." in ctutl.nextToken():
+                if "." in ctutl.nextToken():
 
-                newMax("float")
+                    newMax("float")
 
-            else:
+                else:
 
-                newMax("int")
+                    newMax("int")
 
-        elif st.kind == "keyword":
+            elif st.kind == "keyword":
 
-            #add "null" case later (when objects are implemented)
+                #add "null" case later (when objects are implemented)
 
-            ctutl.nextToken()
+                ctutl.nextToken()
 
-            newMax("bool")
+                newMax("bool")
 
-        elif st.kind == "identifier":
+            elif st.kind == "identifier":
 
-            name = ctutl.nextToken()
+                name = ctutl.nextToken()
 
-            try:
-                newMax(varTable[name])
+                try:
+                    newMax(varTable[name])
 
-            except:
-                raise ContextException(name + " is not defined")
+                except:
+                    raise ContextException(name + " is not defined")
 
-        elif st.kind == "char":
+            elif st.kind == "char":
 
-            newMax("char")
+                newMax("char")
+
+
+        
+        #if isinstance(st, Statement):
+            #print(st.kind)
+
+        #else:
+            #print(st)
+
+
+        st = ctutl.nextStatement()
             
         
-        st = ctutl.nextStatement()
-
-    print("expression value: "+str(maxVar))
+        
+    #print(str(st.kind) + " " +str(st.parent))
+    #print(expStatement.subList)
+    #print("expression value: "+str(maxVar))
     return maxVar
 
 
@@ -144,4 +163,6 @@ def contextize(fileName):
 # test
 
 contextize("test/test_4.leaf")
+from Parser import printStatements
+printStatements(ctutl.root)
         
