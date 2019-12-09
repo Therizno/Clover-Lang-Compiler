@@ -1,5 +1,5 @@
 import MainUtil as mtl
-import ContextizerUtil as ctutl
+import ContextizerUtil as utl
 
 from Parser import Statement
 from Tokenizer import TokenEntry
@@ -12,10 +12,10 @@ varTable = {}
 
 def contextizeVar(varStatement):
 
-    if ctutl.nextStatement().kind == "keyword": 
+    if utl.nextStatement().kind == "keyword": 
 
-        typ = ctutl.nextToken()
-        name = ctutl.nextToken()
+        typ = utl.nextToken()
+        name = utl.nextToken()
 
         if name in varTable:
 
@@ -23,10 +23,10 @@ def contextizeVar(varStatement):
 
         varTable[name] = typ 
 
-        ctutl.nextToken()     #skip the "="
-        ctutl.nextStatement() #skip to expression statement 
+        utl.nextToken()     #skip the "="
+        utl.nextStatement() #skip to expression statement 
 
-        expType = contextizeExpression(ctutl.nextStatement()) 
+        expType = contextizeExpression(utl.nextStatement()) 
 
         if mtl.typeRank(expType) > mtl.typeRank(typ):
 
@@ -34,12 +34,12 @@ def contextizeVar(varStatement):
 
     else:
 
-        name = ctutl.nextToken()
+        name = utl.nextToken()
 
-        ctutl.nextToken()     #skip the "=" 
-        ctutl.nextStatement() #skip to expression statement 
+        utl.nextToken()     #skip the "=" 
+        utl.nextStatement() #skip to expression statement 
 
-        expType = contextizeExpression(ctutl.nextStatement())
+        expType = contextizeExpression(utl.nextStatement())
 
         # case for assigning new value to old variable
         if name in varTable:
@@ -79,7 +79,7 @@ def contextizeExpression(expStatement):
             maxVar = type1
 
             
-    st = ctutl.nextStatement()
+    st = utl.nextStatement()
 
     while isinstance(st, str) or isinstance(st, Statement) and (st.parent == expStatement or st == expStatement): 
 
@@ -87,7 +87,7 @@ def contextizeExpression(expStatement):
         
             if st.kind == "number":
 
-                if "." in ctutl.nextToken():
+                if "." in utl.nextToken():
 
                     newMax("float")
 
@@ -99,13 +99,13 @@ def contextizeExpression(expStatement):
 
                 #add "null" case later (when objects are implemented)
 
-                ctutl.nextToken()
+                utl.nextToken()
 
                 newMax("bool")
 
             elif st.kind == "identifier":
 
-                name = ctutl.nextToken()
+                name = utl.nextToken()
 
                 try:
                     newMax(varTable[name])
@@ -118,21 +118,10 @@ def contextizeExpression(expStatement):
                 newMax("char")
 
 
-        
-        #if isinstance(st, Statement):
-            #print(st.kind)
 
-        #else:
-            #print(st)
-
-
-        st = ctutl.nextStatement()
+        st = utl.nextStatement()
             
-        
-        
-    #print(str(st.kind) + " " +str(st.parent))
-    #print(expStatement.subList)
-    #print("expression value: "+str(maxVar))
+
     return maxVar
 
 
@@ -140,17 +129,17 @@ def contextizeExpression(expStatement):
 
 def contextize(fileName):
 
-    ctutl.parse(fileName)
+    utl.parse(fileName)
 
-    while ctutl.hasNext():
+    while utl.hasNext():
 
-        s = ctutl.nextStatement()
+        s = utl.nextStatement()
 
 
         # deals with Statement object only, no tokens 
         if not isinstance(s, Statement):
 
-            raise ctutl.ContextException("unexpected token: "+str(s)+" (this should never occur)")
+            raise utl.ContextException("unexpected token: "+str(s)+" (this should never occur)")
 
 
         if s.kind == "var_assign":
@@ -164,5 +153,5 @@ def contextize(fileName):
 
 contextize("test/test_4.leaf")
 from Parser import printStatements
-printStatements(ctutl.root)
+printStatements(utl.root)
         
