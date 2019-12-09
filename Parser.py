@@ -94,7 +94,7 @@ def parseStatement():
         statementList.add(parseVarAssignment())
 
     else:
-        raise utl.ParserException("unexpected token: "+utl.peek().token)
+        raise utl.ParserException("unexpected token: "+utl.peek().token+" at line "+str(line))
 
 
 
@@ -120,6 +120,12 @@ def parseExpression():
     perenValue = 0
 
     exp = Statement("expression")
+
+    # case for empty expression
+    if endOfLine():
+
+        raise utl.ParserException("expression missing at line "+str(line))
+        
     
 
     while not endOfLine():

@@ -99,8 +99,6 @@ def contextizeExpression(expStatement):
 
                 #add "null" case later (when objects are implemented)
 
-                utl.nextToken()
-
                 newMax("bool")
 
             elif st.kind == "identifier":

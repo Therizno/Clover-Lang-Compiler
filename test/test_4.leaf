@@ -9,3 +9,9 @@ int y = 10 * 3 + x - (9 + 4)
 i = 0.00
 
 bool t = true
+
+a = 0.0
+
+u = true & false 
+
+i = (0 - 1) * 5 + 8 / 9
