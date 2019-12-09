@@ -36,7 +36,8 @@ def contextizeVar(varStatement):
 
         name = ctutl.nextToken()
 
-        ctutl.nextToken()     #skip the "="
+        ctutl.nextToken()     #skip the "=" 
+        ctutl.nextStatement() #skip to expression statement 
 
         expType = contextizeExpression(ctutl.nextStatement())
 
@@ -75,8 +76,8 @@ def contextizeExpression(expStatement):
 
             
 
-    while st.parent == expStatement:
-
+    while not expStatement.visited():
+        
         if st.kind == "number":
 
             if "." in ctutl.nextToken():
@@ -108,14 +109,11 @@ def contextizeExpression(expStatement):
         elif st.kind == "char":
 
             newMax("char")
-
-        else:
-            print(st.kind)
             
-
+        
         st = ctutl.nextStatement()
 
-    print(maxVar)
+    print("expression value: "+str(maxVar))
     return maxVar
 
 
@@ -128,7 +126,7 @@ def contextize(fileName):
     while ctutl.hasNext():
 
         s = ctutl.nextStatement()
-        print(s)
+
 
         # deals with Statement object only, no tokens 
         if not isinstance(s, Statement):

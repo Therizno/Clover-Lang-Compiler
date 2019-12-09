@@ -16,14 +16,9 @@ i = 0
 
 def parse(fileName):
 
-    global statmList, curStatement, root
+    global curStatement, root
 
-    statmList = par.parse(fileName)
-
-    # dummy statement node to hold statement list 
-    curStatement = Statement("dummy")
-    curStatement.subList = statmList
-
+    curStatement = par.parse(fileName)
     root = curStatement 
 
 
@@ -49,7 +44,7 @@ def nextStatement():        #never visits the same statement twice
     #skip visited parents
     if isinstance(curStatement, Statement):
 
-        while curStatement.visited():
+        while hasNext() and curStatement.visited():
 
             curStatement = curStatement.parent 
     

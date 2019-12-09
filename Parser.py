@@ -1,7 +1,7 @@
 import MainUtil as mtl
 import ParserUtil as utl
 
-statementList = [] 
+statementList = None 
 
 line = 1 
 
@@ -91,7 +91,7 @@ def parseStatement():
     #handle variable declarations and assignments
     elif utl.peek().token in mtl.types or (utl.tokensLeft() > 1 and utl.peekX(2)[1].token == "="):
 
-        statementList.append(parseVarAssignment())
+        statementList.add(parseVarAssignment())
 
     else:
         raise utl.ParserException("unexpected token: "+utl.peek().token)
@@ -156,7 +156,10 @@ def parseExpression():
 
 def parse(fileName):
 
-    global line
+    global line, statementList
+
+    #initialize dummy node
+    statementList = Statement("dummy")
 
     utl.tokenize(fileName)
 
