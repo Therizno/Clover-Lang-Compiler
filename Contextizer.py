@@ -9,24 +9,6 @@ from Tokenizer import TokenEntry
 varTable = {} 
 
 
-def contextize():
-
-    while ctutl.hasNext():
-
-        s = ctutl.nextStatement()
-
-        # deals with Statement object only, no tokens 
-        if not isinstance(s, Statement):
-
-            raise ContextException("unexpected token: "+str(s)+" (this should never occur)")
-
-
-        if s.kind == "var_assign":
-
-            contextizeVar(s)
-
-
-
 
 def contextizeVar(varStatement):
 
@@ -42,6 +24,7 @@ def contextizeVar(varStatement):
         varTable[name] = typ 
 
         ctutl.nextToken()     #skip the "="
+        ctutl.nextStatement() #skip to expression statement 
 
         expType = contextizeExpression(ctutl.nextStatement()) 
 
@@ -84,7 +67,9 @@ def contextizeExpression(expStatement):
     #compare a variable type string to the current maximum variable type found 
     def newMax(type1):
 
-        if mtl.typeRank(type1) > mtl.typeRank(maxVar):
+        nonlocal maxVar 
+
+        if maxVar == None or mtl.typeRank(type1) > mtl.typeRank(maxVar):
 
             maxVar = type1
 
@@ -104,7 +89,7 @@ def contextizeExpression(expStatement):
 
         elif st.kind == "keyword":
 
-            #add null case later (when objects are implemented)
+            #add "null" case later (when objects are implemented)
 
             ctutl.nextToken()
 
@@ -123,11 +108,42 @@ def contextizeExpression(expStatement):
         elif st.kind == "char":
 
             newMax("char")
+
+        else:
+            print(st.kind)
             
 
         st = ctutl.nextStatement()
 
+    print(maxVar)
+    return maxVar
 
 
 
+
+def contextize(fileName):
+
+    ctutl.parse(fileName)
+
+    while ctutl.hasNext():
+
+        s = ctutl.nextStatement()
+        print(s)
+
+        # deals with Statement object only, no tokens 
+        if not isinstance(s, Statement):
+
+            raise ctutl.ContextException("unexpected token: "+str(s)+" (this should never occur)")
+
+
+        if s.kind == "var_assign":
+
+            contextizeVar(s)
+
+
+
+
+# test
+
+contextize("test/test_4.leaf")
         

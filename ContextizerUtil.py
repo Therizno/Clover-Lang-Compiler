@@ -1,21 +1,32 @@
 import MainUtil as mtl
 import Parser as par
 
+from Parser import Statement
+
 statmList = []
 
 curStatement = None
-lastStatement = None 
+lastStatement = None
+
+# root Statement node
+root = None
 
 i = 0
 
 
 def parse(fileName):
 
-    global statmList
+    global statmList, curStatement, root
 
     statmList = par.parse(fileName)
 
-    iterate()
+    # dummy statement node to hold statement list 
+    curStatement = Statement("dummy")
+    curStatement.subList = statmList
+
+    root = curStatement 
+
+
 
 
 
@@ -24,7 +35,7 @@ def parse(fileName):
 
 def nextStatement():        #never visits the same statement twice
 
-    global curStatement, lastStatement, i 
+    global curStatement, lastStatement, i
 
     if isinstance(curStatement, str):
  
@@ -38,25 +49,20 @@ def nextStatement():        #never visits the same statement twice
     #skip visited parents
     if isinstance(curStatement, Statement):
 
-        while curStatement != None and curStatement.visited():
+        while curStatement.visited():
 
             curStatement = curStatement.parent 
     
-    
-    
-    if curStatement == None and i < len(statmList): 
-
-        curStatement = statmList[i]
-        i += 1
-
 
     return curStatement
 
 
 
+
 def hasNext():
 
-    return i < len(statmList)
+    return curStatement != None 
+
 
 
 

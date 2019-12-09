@@ -50,13 +50,13 @@ class Statement:
         if self.i < len(self.subList):
 
             self.i += 1
-            return self.subList[i-1]
+            return self.subList[self.i-1]
 
         return self.parent
 
     def visited(self):
 
-        return i >= len(self.subList) 
+        return self.i >= len(self.subList) 
 
     
 
@@ -169,7 +169,7 @@ def parse(fileName):
 
 
 
-#test 
+#testing function
 
 
 def printStatements(l):
@@ -190,7 +190,4 @@ def printStatements(l):
             printStatements(st)
 
 
-parse("test/test_4.leaf")
-print("printing:")
-printStatements(statementList)
-print(str(line) + " lines")
+
