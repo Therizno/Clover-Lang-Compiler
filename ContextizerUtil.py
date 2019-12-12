@@ -74,15 +74,18 @@ def nextToken():
 
 def reset():
 
+    global curStatement
+
     resetRecursive(root)
+    curStatement = root
 
 
 def resetRecursive(s):
 
     if isinstance(s, par.Statement):
-
+        
         s.i = 0
-
+        
         for item in s.subList:
 
             resetRecursive(item)

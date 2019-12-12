@@ -1,4 +1,4 @@
-import Tokenizer as tkner
+import Translator as compl
 import MainUtil as mtl
 
 while True:
@@ -11,12 +11,11 @@ while True:
 
     else:
         try:
-            tokens = tkner.tokenize(fileName)
-            print("Success! " + str(tkner.line) + " lines compiled")
-            print(tokens)
+            compl.leafCompile(fileName)
+            print("Success!")
         
         except mtl.CompileException as e:
             print("Error: "+e.message)
 
-        tkner.tokenList.clear()
+
 

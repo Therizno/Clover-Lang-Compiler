@@ -19,7 +19,7 @@ def contextizeVar(varStatement):
 
         if name in varTable:
 
-            raise ContextException(name + " declared twice")
+            raise utl.ContextException(name + " declared twice")
 
         varTable[name] = typ 
 
@@ -109,7 +109,7 @@ def contextizeExpression(expStatement):
                     newMax(varTable[name])
 
                 except:
-                    raise ContextException(name + " is not defined")
+                    raise utl.ContextException(name + " is not defined")
 
             elif st.kind == "char":
 
