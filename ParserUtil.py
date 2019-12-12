@@ -59,7 +59,7 @@ def pop():
     return tokenList.pop(0)
     
 
-#pop the firt x elements 
+#pop the first x elements 
 def popX(x):
 
     l = []
