@@ -14,6 +14,8 @@ def leafCompile(fileName):
     
     file = open(fileName[0:len(fileName)-5]+".c", "w+")
 
+    file.write("#include <stdio.h>\n")
+
     file.write("int main() {\n")
 
     stringify()
@@ -49,9 +51,10 @@ def stringify():
                     # replace with translations table soon 
                     if s == "bool":
 
-                        file.write("boolean")
+                        file.write("short int ")
 
-                    file.write(s + " ")
+                    else:
+                        file.write(s + " ")
                     
 
                 s = ctutl.nextStatement()
@@ -65,12 +68,22 @@ def stringify():
 
                 if(isinstance(s, str)):
 
-                    file.write(s)
+                    if s == "true":
+                        file.write("1")
+
+                    elif s == "false":
+                        file.write("0")
+
+                    else:
+                        file.write(s)
 
 
             file.write(";\n")
+
             
-            file.write('cout << "stored " << '+name+' << " in a variable";\n')
+            
+            file.write('printf( " stored %d", '+name+');\n')
+
 
         
     

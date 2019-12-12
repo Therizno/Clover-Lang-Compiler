@@ -1,19 +1,20 @@
+#include <stdio.h>
 int main() {
 int x= 0.0;
-cout << "stored " << x << " in a variable";
+printf( "stored %d", x);
 x= 1;
-cout << "stored " << x << " in a variable";
+printf( "stored %d", x);
 int y= 10*3+x-(9+4);
-cout << "stored " << y << " in a variable";
+printf( "stored %d", y);
 float i= 0.00;
-cout << "stored " << i << " in a variable";
-booleanbool t= true;
-cout << "stored " << t << " in a variable";
+printf( "stored %d", i);
+short int t= 1;
+printf( "stored %d", t);
 float a= 0.0;
-cout << "stored " << a << " in a variable";
-booleanbool u= true&false;
-cout << "stored " << u << " in a variable";
+printf( "stored %d", a);
+short int u= 1&0;
+printf( "stored %d", u);
 i= (0-1)*5+8/9;
-cout << "stored " << i << " in a variable";
+printf( "stored %d", i);
 return 0;
 }
