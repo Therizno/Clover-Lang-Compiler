@@ -22,6 +22,8 @@ def leafCompile(fileName):
 
     file.close()
 
+    cont.reset()
+
 
 def stringify():
     
@@ -73,6 +75,5 @@ def stringify():
         
     
 
-#test 
-leafCompile("test/test_4.leaf")
+
 

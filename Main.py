@@ -12,6 +12,10 @@ while True:
     else:
         try:
             compl.leafCompile(fileName)
+
+            for item in mtl.compilerWarnings:
+                print(item)
+            
             print("Success!")
         
         except mtl.CompileException as e:

@@ -46,7 +46,7 @@ def contextizeVar(varStatement):
 
             if mtl.typeRank(expType) > mtl.typeRank(varTable[name]):
 
-                mtl.compilerWarnings.append("possible loss of information when initializing "+name)
+                mtl.compilerWarnings.append("possible loss of information when assigning value to "+name)
 
 
         # case for creation of new variable        
@@ -121,6 +121,16 @@ def contextizeExpression(expStatement):
             
 
     return maxVar
+
+
+
+
+
+def reset():
+
+    global varTable
+
+    varTable.clear()
 
 
 
