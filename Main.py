@@ -14,7 +14,7 @@ while True:
             compl.leafCompile(fileName)
 
             for item in mtl.compilerWarnings:
-                print(item)
+                print("Compiler Warning: "+item)
             
             print("Success!")
         
